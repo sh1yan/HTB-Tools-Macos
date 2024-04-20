@@ -1,0 +1,46 @@
+
+
+### 枚举域用户名
+shiyan@InfoSec kerbrute % ./kerbrute userenum --dc spookysec.local -d spookysec.local userlist.txt
+
+
+
+
+
+
+
+
+
+
+
+
+历史使用情况：
+
+shiyan@InfoSec kerbrute % ./kerbrute userenum --dc spookysec.local -d spookysec.local userlist.txt 
+
+    __             __               __     
+   / /_____  _____/ /_  _______  __/ /____ 
+  / //_/ _ \/ ___/ __ \/ ___/ / / / __/ _ \
+ / ,< /  __/ /  / /_/ / /  / /_/ / /_/  __/
+/_/|_|\___/_/  /_.___/_/   \__,_/\__/\___/                                        
+
+Version: dev (n/a) - 12/26/23 - Ronnie Flathers @ropnop
+
+2023/12/26 09:02:04 >  Using KDC(s):
+2023/12/26 09:02:04 >  	spookysec.local:88
+
+2023/12/26 09:02:20 >  [+] VALID USERNAME:	 james@spookysec.local
+2023/12/26 09:04:12 >  [+] VALID USERNAME:	 svc-admin@spookysec.local
+2023/12/26 09:06:15 >  [+] VALID USERNAME:	 James@spookysec.local
+2023/12/26 09:06:53 >  [+] VALID USERNAME:	 robin@spookysec.local
+
+
+
+
+
+
+
+
+
+
+
