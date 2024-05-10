@@ -1,0 +1,5 @@
+firstname,firstinitial,middleinitial,lastname,lastinitial
+Bill,,,Gates,
+Steve,,,,J
+,M,,Zuckerberg,
+
