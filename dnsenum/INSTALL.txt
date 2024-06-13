@@ -1,0 +1,28 @@
+##You need Perl, it's installed on KALI Linux and on most other Linux's by default.
+
+##To install missing Perl modules, first install cpanminus (as root):
+
+debian:	apt-get install cpanminus
+centos: yum install cpan
+	curl -L http://cpanmin.us | perl - App::cpanminus
+
+##Then:
+
+root@kali:~# cpanm String::Random
+--> Working on String::Random
+Fetching http://www.cpan.org/authors/id/S/SH/SHLOMIF/String-Random-0.25.tar.gz .
+.. OK
+Configuring String-Random-0.25 ... OK
+Building and testing String-Random-0.25 ... OK
+Successfully installed String-Random-0.25
+1 distribution installed
+
+Mac Os X
+========
+perl -MCPAN -e shell
+
+## and then type something like:
+
+install String::Random
+
+ANd just type enter when you're asked something ;)
