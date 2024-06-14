@@ -1,0 +1,23 @@
+name: ssh-audit
+# 'version' field will be automatically added by build_snap.sh.
+license: 'MIT'
+summary: ssh-audit
+description: |
+  SSH server and client security configuration auditor.  Official repository: <https://github.com/jtesta/ssh-audit>
+
+base: core22
+grade: stable
+confinement: strict
+architectures:
+  - build-on: [amd64]
+    build-for: [all]
+
+apps:
+  ssh-audit:
+    command: bin/ssh-audit
+    plugs: [network,network-bind,home]
+
+parts:
+  ssh-audit:
+    plugin: python
+    source: .

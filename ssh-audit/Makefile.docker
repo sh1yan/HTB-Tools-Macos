@@ -1,0 +1,28 @@
+VERSION = $(shell grep VERSION src/ssh_audit/globals.py | grep -E -o "'(v.*)'" | tr -d "'")
+ifeq ($(VERSION),)
+  $(error "could not determine version!")
+endif
+
+all:
+	./add_builtin_man_page.sh
+	docker buildx create --name multiarch --use || exit 0
+	docker buildx build \
+		--platform linux/amd64,linux/arm64,linux/arm/v7 \
+		--tag positronsecurity/ssh-audit:${VERSION} \
+		--tag positronsecurity/ssh-audit:latest \
+		.
+	docker buildx build \
+		--tag positronsecurity/ssh-audit:${VERSION} \
+		--tag positronsecurity/ssh-audit:latest \
+		--load \
+		--builder=multiarch \
+		.
+
+upload:
+	docker login -u positronsecurity
+	docker buildx build \
+		--platform linux/amd64,linux/arm64,linux/arm/v7 \
+		--tag positronsecurity/ssh-audit:${VERSION} \
+		--tag positronsecurity/ssh-audit:latest \
+		--push \
+		.
