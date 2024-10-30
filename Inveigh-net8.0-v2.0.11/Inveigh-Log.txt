@@ -1,0 +1,42 @@
+[*] Inveigh 2.0.11 [Started 2024-10-27T23:59:23 | PID 15275]
+[ ] Packet Sniffer
+[ ] Listener Address
+[ ] Spoofer Reply Address
+[+] Spoofer Options [Repeat Enabled | Local Attacks Disabled]
+[ ] DHCPv6
+[+] DNS Listener [Type A]
+[ ] ICMPv6
+[+] LLMNR Listener [Type A]
+[ ] MDNS
+[ ] NBNS
+[+] HTTP Listener [HTTPAuth NTLM | WPADAuth NTLM | Port 80]
+[ ] HTTPS
+[+] WebDAV [WebDAVAuth NTLM]
+[ ] Proxy
+[+] LDAP Listener [Port 389]
+[+] SMB Listener [Port 445]
+[+] File Output [/Users/shiyan/Downloads/Inveigh-net8.0-osx-x64-trimmed-single-v2.0.11]
+[+] Previous Session Files (Not Found)
+[*] Press ESC to enter/exit interactive console
+[+] Inveigh exited at 2024-10-28T00:00:11
+[*] Inveigh 2.0.11 [Started 2024-10-28T00:01:39 | PID 16685]
+[ ] Packet Sniffer
+[ ] Listener Address
+[ ] Spoofer Reply Address
+[+] Spoofer Options [Repeat Enabled | Local Attacks Disabled]
+[ ] DHCPv6
+[+] DNS Listener [Type A]
+[ ] ICMPv6
+[+] LLMNR Listener [Type A]
+[ ] MDNS
+[ ] NBNS
+[+] HTTP Listener [HTTPAuth NTLM | WPADAuth NTLM | Port 80]
+[ ] HTTPS
+[+] WebDAV [WebDAVAuth NTLM]
+[ ] Proxy
+[+] LDAP Listener [Port 389]
+[+] SMB Listener [Port 445]
+[+] File Output [/Users/shiyan/Downloads/Inveigh-net8.0-v2.0.11]
+[+] Previous Session Files [Imported]
+[*] Press ESC to enter/exit interactive console
+[+] Inveigh exited at 2024-10-28T00:02:21
