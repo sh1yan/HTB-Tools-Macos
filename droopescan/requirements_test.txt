@@ -1,0 +1,8 @@
+mock
+nose
+responses
+lxml>=4.6.3
+BeautifulSoup4
+coverage
+wheel
+retrying
