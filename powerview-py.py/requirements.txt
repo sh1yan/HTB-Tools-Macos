@@ -1,0 +1,13 @@
+impacket
+ldap3-bleeding-edge
+dnspython
+future
+gnureadline
+validators
+dsinternals
+chardet
+tabulate
+argparse
+requests_ntlm
+python-dateutil
+flask
